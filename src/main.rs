@@ -1,4 +1,4 @@
-use yew_todo::app::App;
+use yew_todo::App;
 
 fn main() {
     yew::start_app::<App>();
