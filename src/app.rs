@@ -1,6 +1,6 @@
 use crate::component::header::Header;
 use crate::state::{State, Todo};
-use yew::{html, Component, ComponentLink, Html, InputData, ShouldRender};
+use yew::prelude::*;
 
 pub enum Msg {
     Update(String),
