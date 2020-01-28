@@ -28,6 +28,10 @@ impl State {
     }
 
     pub fn add_todo(&mut self) {
+        if self.value.is_empty() {
+            return;
+        }
+
         self.todos.push(Todo::new(&self.value));
         self.value = "".to_string();
     }
