@@ -40,29 +40,35 @@ impl Component for App {
         html! {
             <div>
                 <Header />
-                <div>
-                    <input
-                        type="text"
-                        placeholder="Your todo..."
-                        value=&self.state.value
-                        oninput=self.link.callback(|e: InputData| Msg::Update(e.value))
-                    />
-                    <button
-                        type="button"
-                        onclick=self.link.callback(|_| Msg::AddTodo)
-                    >{"add"}</button>
-                </div>
+                {self.render_editor()}
                 <hr />
-                {self.render_lists(&self.state.todos)}
+                {self.render_list(&self.state.todos, &self.link)}
                 <hr />
-                <p>{format!("{}/{} todo(s) are done!", self.state.done_len(), self.state.total_len())}</p>
+                {self.render_counter(self.state.done_len(), self.state.total_len())}
             </div>
         }
     }
 }
 
 impl App {
-    fn render_lists(&self, todos: &Vec<Todo>) -> Html {
+    fn render_editor(&self) -> Html {
+        html! {
+            <div>
+                <input
+                    type="text"
+                    placeholder="Your todo..."
+                    value=&self.state.value
+                    oninput=self.link.callback(|e: InputData| Msg::Update(e.value))
+                />
+                <button
+                    type="button"
+                    onclick=self.link.callback(|_| Msg::AddTodo)
+                >{"add"}</button>
+            </div>
+        }
+    }
+
+    fn render_list(&self, todos: &Vec<Todo>, link: &ComponentLink<Self>) -> Html {
         html! {
             <ul>
             { for todos.iter().enumerate().map(|(idx, todo)| {
@@ -72,13 +78,19 @@ impl App {
                         <input
                             type="checkbox"
                             checked=todo.done
-                            onclick=self.link.callback(move |_| Msg::ToggleTodo(idx))
+                            onclick=link.callback(move |_| Msg::ToggleTodo(idx))
                         />
                         {todo.title.clone()}
                     </li>
                 }
             }) }
             </ul>
+        }
+    }
+
+    fn render_counter(&self, done_len: usize, total_len: usize) -> Html {
+        html! {
+            <p>{format!("{}/{} todo(s) are done!", done_len, total_len)}</p>
         }
     }
 }
