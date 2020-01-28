@@ -1,3 +1,4 @@
+#[derive(Debug, Clone)]
 pub struct Todo {
     pub title: String,
     pub done: bool,
@@ -34,5 +35,13 @@ impl State {
     pub fn toggle_todo(&mut self, idx: usize) {
         let todo = self.todos.get_mut(idx).unwrap();
         todo.toggle();
+    }
+
+    pub fn total_len(&self) -> usize {
+        self.todos.len()
+    }
+
+    pub fn done_len(&self) -> usize {
+        self.todos.iter().filter(|t| t.done).count()
     }
 }

@@ -1,7 +1,6 @@
-use yew::{html, Component, ComponentLink, Html, InputData, ShouldRender};
-
 use crate::component::header::Header;
 use crate::state::{State, Todo};
+use yew::{html, Component, ComponentLink, Html, InputData, ShouldRender};
 
 pub enum Msg {
     Update(String),
@@ -52,9 +51,10 @@ impl Component for App {
                         onclick=self.link.callback(|_| Msg::AddTodo)
                     >{"add"}</button>
                 </div>
-                <div>
-                    {self.render_lists(&self.state.todos)}
-                </div>
+                <hr />
+                {self.render_lists(&self.state.todos)}
+                <hr />
+                <p>{format!("{}/{} done todo(s)", self.state.done_len(), self.state.total_len())}</p>
             </div>
         }
     }
@@ -70,7 +70,7 @@ impl App {
                         <span>{idx + 1}</span>
                         <input
                             type="checkbox"
-                            checked={todo.done}
+                            checked=todo.done
                             onclick=self.link.callback(move |_| Msg::ToggleTodo(idx))
                         />
                         {todo.title.clone()}
