@@ -43,6 +43,7 @@ impl Component for App {
                 <div>
                     <input
                         type="text"
+                        placeholder="Your todo..."
                         value=&self.state.value
                         oninput=self.link.callback(|e: InputData| Msg::Update(e.value))
                     />
@@ -54,7 +55,7 @@ impl Component for App {
                 <hr />
                 {self.render_lists(&self.state.todos)}
                 <hr />
-                <p>{format!("{}/{} done todo(s)", self.state.done_len(), self.state.total_len())}</p>
+                <p>{format!("{}/{} todo(s) are done!", self.state.done_len(), self.state.total_len())}</p>
             </div>
         }
     }
