@@ -5,13 +5,13 @@ It has less features than official [example](https://github.com/yewstack/yew/tre
 But more real-world example.
 
 - file splitting
-  - state
+  - extract app state
   - components
-- render presentational component
+- use presentational component
 
 ## Setup
 
 ```sh
-cargo add cargo-web
+cargo install cargo-web
 cargo web start
 ```
