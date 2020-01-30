@@ -39,7 +39,7 @@ impl Component for App {
     fn view(&self) -> Html {
         html! {
             <div>
-                <Header />
+                {Header()}
                 {Editor(&self.state.value, self.link.callback(|e: InputData| Msg::Update(e.value)), self.link.callback(|_| Msg::AddTodo))}
                 <hr />
                 {List(&self.state.todos, |idx| self.link.callback(move |_| Msg::ToggleTodo(idx)))}
