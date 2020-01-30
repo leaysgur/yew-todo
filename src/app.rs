@@ -37,10 +37,13 @@ impl Component for App {
                 {Header()}
                 <Editor on_add=self.link.callback(|v: String| Msg::AddTodo(v)) />
                 <hr />
-                {List(&self.state.todos, |idx| self.link.callback(move |_| Msg::ToggleTodo(idx)))}
+                { if self.state.todos.is_empty() {
+                    html! { <p>{"No todos"}</p> }
+                } else {
+                    html! {List(&self.state.todos, |idx| self.link.callback(move |_| Msg::ToggleTodo(idx)))}
+                } }
                 <hr />
                 {Counter(&self.state.done_len(), &self.state.total_len())}
-                <hr />
             </div>
         }
     }
