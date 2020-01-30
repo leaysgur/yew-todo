@@ -1,5 +1,5 @@
-use crate::component::header::Header;
-use crate::state::{State, Todo};
+use crate::component::{Counter, Editor, Header, List};
+use crate::state::State;
 use yew::prelude::*;
 
 pub enum Msg {
@@ -40,57 +40,12 @@ impl Component for App {
         html! {
             <div>
                 <Header />
-                {self.render_editor()}
+                {Editor(&self.state.value, self.link.callback(|e: InputData| Msg::Update(e.value)), self.link.callback(|_| Msg::AddTodo))}
                 <hr />
-                {self.render_list(&self.state.todos, &self.link)}
+                {List(&self.state.todos, |idx| self.link.callback(move |_| Msg::ToggleTodo(idx)))}
                 <hr />
-                {self.render_counter(self.state.done_len(), self.state.total_len())}
+                {Counter(&self.state.done_len(), &self.state.total_len())}
             </div>
-        }
-    }
-}
-
-impl App {
-    fn render_editor(&self) -> Html {
-        html! {
-            <div>
-                <input
-                    type="text"
-                    placeholder="Your todo..."
-                    value=&self.state.value
-                    oninput=self.link.callback(|e: InputData| Msg::Update(e.value))
-                />
-                <button
-                    type="button"
-                    onclick=self.link.callback(|_| Msg::AddTodo)
-                >{"add"}</button>
-            </div>
-        }
-    }
-
-    fn render_list(&self, todos: &Vec<Todo>, link: &ComponentLink<Self>) -> Html {
-        html! {
-            <ul>
-            { for todos.iter().enumerate().map(|(idx, todo)| {
-                html! {
-                    <li>
-                        <span>{idx + 1}</span>
-                        <input
-                            type="checkbox"
-                            checked=todo.done
-                            onclick=link.callback(move |_| Msg::ToggleTodo(idx))
-                        />
-                        {todo.title.clone()}
-                    </li>
-                }
-            }) }
-            </ul>
-        }
-    }
-
-    fn render_counter(&self, done_len: usize, total_len: usize) -> Html {
-        html! {
-            <p>{format!("{}/{} todo(s) are done!", done_len, total_len)}</p>
         }
     }
 }
