@@ -19,21 +19,15 @@ impl Todo {
 
 pub struct State {
     pub todos: Vec<Todo>,
-    pub value: String,
 }
 
 impl State {
-    pub fn update(&mut self, value: &str) {
-        self.value = value.to_string();
-    }
-
-    pub fn add_todo(&mut self) {
-        if self.value.is_empty() {
+    pub fn add_todo(&mut self, value: String) {
+        if value.is_empty() {
             return;
         }
 
-        self.todos.push(Todo::new(&self.value));
-        self.value = "".to_string();
+        self.todos.push(Todo::new(&value));
     }
 
     pub fn toggle_todo(&mut self, idx: usize) {
